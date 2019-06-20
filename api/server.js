@@ -10,7 +10,7 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'up' });
 });
 
-server.get('/Users', (req, res) => {
+server.get('/users', (req, res) => {
   Users.getAll()
     .then(hobbits => {
       res.status(200).json(users);
