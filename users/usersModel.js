@@ -4,7 +4,6 @@ module.exports = {
   insert,
   remove,
   getAll,
-  findById,
 };
 
 function insert(user) {
@@ -17,20 +16,12 @@ function insert(user) {
     });
 }
 
-// async function update(id, changes) {
-//   return null;
-// }
-
 function remove(id) {
   return db('users')
     .where({ id })
-    .truncate();
+    .del();
 }
 
 function getAll() {
   return db('users');
-}
-
-function findById(id) {
-  return null;
 }

@@ -1,5 +1,6 @@
 const supertest = require('supertest');
 const server = require('./server');
+const db = require('../data/dbConfig');
 
 describe('server', () => {
   describe('GET/', () => {
@@ -23,6 +24,34 @@ describe('server', () => {
         .then(res => {
           expect(res.body).toEqual({ api: 'up' });
         });
+    });
+  });
+
+  describe('POST /users', () => {
+    it('responds with 201 when user is passed', async () => {
+      const user = { username: 'Jonathan' };
+      const response = await supertest(server)
+        .post('/users')
+        .send(user);
+      expect(response.status).toEqual(201);
+    });
+
+    it('responds with 500 when no user is passed', async () => {
+      const response = await supertest(server).post('/users');
+
+      expect(response.status).toEqual(500);
+    });
+  });
+
+  describe('DELETE /users/:id', () => {
+    it('should delete a user', async () => {
+      const user = { name: 'Jonathan' };
+      await supertest(server)
+        .post('/users')
+        .send(user);
+
+      const response = await supertest(server).delete('/users/1');
+      expect(response.status).toEqual(200);
     });
   });
 });
